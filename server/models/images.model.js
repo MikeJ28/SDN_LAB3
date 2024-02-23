@@ -15,6 +15,6 @@ const imageSchema = new Schema({
     timestamps: true
 });
 
-const Images = mongoose.model("Images", imageSchema);
+const Images = mongoose.model("images", imageSchema);
 
 export default Images;

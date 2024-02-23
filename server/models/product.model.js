@@ -20,8 +20,23 @@ const productSchema = new Schema({
         trim: true,
         required: [true, 'Product must contain description']
     },
-    "images": [imageSchema],
-    "comments": [commentSchema],
+    "images": [
+        {
+            "_id": {
+                type: Schema.Types.ObjectId,
+                ref: "images"
+            },
+            "url":{
+                type: String
+            }
+        }
+    ],
+    "comments": [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "comments"
+        }
+    ],
     "category": {
         type: Schema.Types.ObjectId,
         ref: "categories"
@@ -30,6 +45,6 @@ const productSchema = new Schema({
     timestamps: true
 });
 
-const Products = mongoose.model("Products", productSchema);
+const Products = mongoose.model("products", productSchema);
 
 export default Products;
