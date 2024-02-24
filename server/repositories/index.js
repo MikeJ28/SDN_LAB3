@@ -1,5 +1,7 @@
 import productRepo from "./productRepo.js";
+import categoryRepo from "./categoryRepo.js";
 
-export {
-    productRepo
+export{
+    productRepo,
+    categoryRepo
 }
