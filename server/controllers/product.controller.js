@@ -21,6 +21,27 @@ const getAllProducts = async(req, res) => {
     }
 }
 
+//R: get Product by ID:
+const getProductById = async(req, res) => {
+    let dataReturn = {}
+    try {
+        const data = await productRepo.getProduct(req.params.id);
+        dataReturn = {
+            "length" : data.length,
+            "status": true,
+            "results": data
+        };
+        res.status(200).json(dataReturn);
+    } catch (error) {
+        dataReturn = {
+            "length" : null,
+            "status": false,
+            "message": error.toString()
+        };
+        res.status(500).json(dataReturn)
+    }
+}
+
 // Create product
 const createProduct = async(req, resp) =>{
     console.log(req.body);
@@ -38,5 +59,6 @@ const createProduct = async(req, resp) =>{
 
 export default {
     getAllProducts,
+    getProductById,
     createProduct
 }

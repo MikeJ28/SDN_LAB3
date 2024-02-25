@@ -3,7 +3,36 @@ import Products from "../models/product.model.js";
 //R: get all product
 const getAll = async() => {
     try{
-        return await Products.find({}).exec();
+        const data = await Products.find({}).populate('category').exec();
+        const dataReturn = data.map(item => {
+            let tmp_obj = {};
+            tmp_obj.id = item.id
+            tmp_obj.name = item.name ? item.name : "";
+            tmp_obj.price = item.price ? item.price : 0;
+            tmp_obj.description = item.description ? item.description : "";
+            tmp_obj.category = item.category ? item.category.name : "";
+            return tmp_obj
+        })
+        return dataReturn;
+    }catch(error){
+        throw new Error(error.toString());
+    }
+}
+
+//R: get product
+const getProduct = async(_id) => {
+    try{
+        const data = await Products.find({"_id": _id}).populate('category').exec();
+        const dataReturn = data.map(item => {
+            let tmp_obj = {};
+            tmp_obj.id = item.id
+            tmp_obj.name = item.name ? item.name : "";
+            tmp_obj.price = item.price ? item.price : 0;
+            tmp_obj.description = item.description ? item.description : "";
+            tmp_obj.category = item.category ? item.category.name : "";
+            return tmp_obj
+        });
+        return dataReturn;
     }catch(error){
         throw new Error(error.toString());
     }
@@ -23,5 +52,6 @@ const createProduct = async(name, price, description, images, comments, category
 
 export default {
     getAll,
-    createProduct
+    createProduct,
+    getProduct
 }
