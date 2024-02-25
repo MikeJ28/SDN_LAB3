@@ -12,6 +12,7 @@ export default function ProductCreate() {
   const [price, setPrice] = useState(0);
   const [image, setImage] = useState([]);
   const [imageTitles, setImageTitles] = useState([]);
+  const [imageSize, setImageSize] = useState([]);
 
   useEffect(() => {
     axios.get("http://localhost:9999/category").then((resp) => {
@@ -25,6 +26,7 @@ export default function ProductCreate() {
       fileReader.onload = (event) => {
         const base64 = event.target.result;
         setImage([...image, base64]);
+        setImageSize(() => [...imageSize, file.size])
         resolve(base64);
       };
       fileReader.onerror = (error) => {
@@ -55,6 +57,7 @@ export default function ProductCreate() {
         formData.images.push({
           url: img,
           caption: imageTitles[image.indexOf(img)] ? imageTitles[image.indexOf(img)] : "",
+          size: imageSize[image.indexOf(img)] ? imageSize[image.indexOf(img)] : 0,
         })
       );
     }
@@ -64,7 +67,9 @@ export default function ProductCreate() {
             }
         ).catch(
             (error) => {
-                setMessage(error.response.data.message);
+              error.response && error.response.data && error.response.data.message ?
+                setMessage(error.response.data.message):
+                setMessage("File sending is to large. Please try again or contact to IT for Support!")
                 console.error("Error creating product:", error);
               }
         );
@@ -102,17 +107,19 @@ export default function ProductCreate() {
   };
 
   const handleDelete = (index) => {
-        console.log(index);
         if (index < 0 || index >= image.length) {
             setMessage("Index out of bound!");
             return;
         }
         let updatedImage = [...image];
         let updatedImageTitles = [...imageTitles];
+        let updatedImageSize = [...imageSize];
         updatedImage.splice(index, 1);
         updatedImageTitles.splice(index, 1);
+        updatedImageSize.splice(index, 1);
         setImage(updatedImage);
         setImageTitles(updatedImageTitles);
+        setImageSize(updatedImageSize);
     };
     
 
