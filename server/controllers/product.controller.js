@@ -1,4 +1,4 @@
-import { productRepo } from "../repositories/index.js";
+import { imageRepo, productRepo } from "../repositories/index.js";
 
 //getAll
 const getAllProducts = async(req, res) => {
@@ -47,15 +47,23 @@ const createProduct = async(req, resp) =>{
     try{
         //check Name is undefine or not
         const dataEixst = await productRepo.getProduct(req.body.name, "name");
-        console.log(dataEixst)
         if(dataEixst.length){
             resp.status(500).json({
                 "status": "fail",
                 "message": "This name is existed in DB!"
             })
         }
-        else{
+        // Nếu tên sản phẩm không có trong db thì thực hiện add
+        else{ 
             const {name, price, description, images, comments, category} = req.body;
+            // Check xem có ảnh thì add vào db trước khi add sản phẩm.
+            if(images.length){
+                images.forEach(async element => {
+                    await imageRepo.createImage(element.url, element.caption, element.size)
+                });
+            }
+
+            //add vào products
             const results = await productRepo.createProduct(name, price, description, images, comments, category);
             resp.status(201).json(results);
         }

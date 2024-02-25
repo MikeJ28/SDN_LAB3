@@ -25,9 +25,7 @@ const getProduct = async(param, field) => {
     try{
         let query = {};
         query[field] = param;
-        console.log(query)
         const data = await Products.find(query).exec();
-        console.log(data)
         const dataReturn = data.map(item => {
             let tmp_obj = {};
             tmp_obj.id = item.id

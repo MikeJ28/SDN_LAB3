@@ -20,6 +20,7 @@ const getCategory = async(_id) => {
         throw new Error(error.toString());
     }
 }
+
 export default{
     createCate,
     getCategory

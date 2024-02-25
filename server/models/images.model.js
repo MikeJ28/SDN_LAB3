@@ -9,7 +9,7 @@ const imageSchema = new Schema({
     },
     "size":{
         type: Number,
-        max: [2048, 'Size must be lowwer than or equals to 2Mb']
+        max: [2048000, 'Size must be lowwer than or equals to 2Mb']
     },
 },{
     timestamps: true
