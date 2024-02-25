@@ -24,9 +24,7 @@ const getAllCategories = async(req, resp) => {
 
 // get category by _id
 const getCategory = async(req, resp) => {
-    console.log(req.params);
     try{
-        console.log(req.params.id);
         const id = req.params.id;
         const dataReturn = await categoryRepo.getCategory(id);
         resp.status(200).json(dataReturn);

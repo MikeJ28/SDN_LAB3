@@ -1,3 +1,4 @@
+import { query } from "express";
 import Products from "../models/product.model.js";
 
 //R: get all product
@@ -20,9 +21,13 @@ const getAll = async() => {
 }
 
 //R: get product
-const getProduct = async(_id) => {
+const getProduct = async(param, field) => {
     try{
-        const data = await Products.find({"_id": _id}).populate('category').exec();
+        let query = {};
+        query[field] = param;
+        console.log(query)
+        const data = await Products.find(query).exec();
+        console.log(data)
         const dataReturn = data.map(item => {
             let tmp_obj = {};
             tmp_obj.id = item.id
