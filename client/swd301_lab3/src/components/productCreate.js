@@ -55,9 +55,9 @@ export default function ProductCreate() {
     if (image.length) {
       image.forEach((img) =>
         formData.images.push({
-          url: img,
-          caption: imageTitles[image.indexOf(img)] ? imageTitles[image.indexOf(img)] : "",
-          size: imageSize[image.indexOf(img)] ? imageSize[image.indexOf(img)] : 0,
+          "url": img,
+          "caption": imageTitles[image.indexOf(img)] ? imageTitles[image.indexOf(img)] : "",
+          "size": imageSize[image.indexOf(img)] ? imageSize[image.indexOf(img)] : 0,
         })
       );
     }

@@ -11,7 +11,6 @@ export default function Product() {
     useEffect(() => {
         axios.get("http://localhost:9999/products")
             .then(resp => {
-                console.log(resp)
                 setProducts(resp.data.results);
             })
     }, []);
@@ -20,12 +19,6 @@ export default function Product() {
         console.log(products);
     }, [products]);
     
-
-    // Xử lý logic
-    let sendDetail = (_id) => {
-        let path = "products/" + _id;
-        console.log(path);
-    }
 
 
     // Giao diện:
@@ -53,7 +46,9 @@ export default function Product() {
                                 <td>{p.price}</td>
                                 <td>{p.category}</td>
                                 <td>
-                                    <Button color="primary" className="px-4"  onClick={() => sendDetail(p.id)}>Detail</Button>
+                                    <Link to={"http://localhost:3000/products/" + p.id}>
+                                        <Button color="primary" className="px-4">Detail</Button>
+                                    </Link>
                                 </td>
                             </tr>
                         ))
