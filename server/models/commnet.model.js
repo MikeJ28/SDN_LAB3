@@ -1,6 +1,7 @@
 import mongoose, {Schema} from "mongoose";
 
-const commentSchema = new Schema({
+
+const Comments = mongoose.model("comments", new Schema({
     "url":{
         type: String,
     },
@@ -21,8 +22,6 @@ const commentSchema = new Schema({
     }
 },{
     timestamps: true
-});
-
-const Comments = mongoose.model("comments", commentSchema);
+}));
 
 export default Comments;

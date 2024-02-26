@@ -1,5 +1,6 @@
 import { query } from "express";
 import Products from "../models/product.model.js";
+import {imageRepo} from "./index.js"
 
 //R: get all product
 const getAll = async() => {
@@ -33,6 +34,11 @@ const getProduct = async(param, field) => {
             tmp_obj.price = item.price ? item.price : 0;
             tmp_obj.description = item.description ? item.description : "";
             tmp_obj.category = item.category ? item.category.name : "";
+           
+            // Nếu như filed == _ic thì trả thêm ảnh của phẩn tử đầu tiên vì mảng trả về chỉ có 1 phần tử.
+            if(field == "_id"){
+                tmp_obj.images = data[0].images;
+            }
             return tmp_obj
         });
         return dataReturn;
@@ -44,7 +50,22 @@ const getProduct = async(param, field) => {
 // C: create product
 const createProduct = async(name, price, description, images, comments, category) => {
     try{
-        const newProduct = await Products.create({name, price, description, images, comments, category});
+        let imageArray = [];
+        let imgData = []
+        if(Array.isArray(images)){
+            //Thêm ảnh vào database
+            for (const element of images) {
+                let dataReturn = await imageRepo.createImage(element.url, element.caption, element.size);
+                imageArray.push(dataReturn);
+            }
+            // Thêm ảnh vào product
+            imgData = imageArray.map(element => {return {
+                _id: element._id,
+                url: element.url
+                }
+            })
+        }
+        const newProduct = await Products.create({name, price, description, images: imgData, comments, category});
         return newProduct._doc;
     }
     catch(e){

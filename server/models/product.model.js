@@ -1,7 +1,6 @@
 import mongoose, {Schema} from "mongoose";
 
-
-const productSchema = new Schema({
+const Products = mongoose.model("products", new Schema({
     "name":{
         type: String,
         trim: true,
@@ -43,8 +42,6 @@ const productSchema = new Schema({
     }
 },{
     timestamps: true
-});
-
-const Products = mongoose.model("products", productSchema);
+}));
 
 export default Products;

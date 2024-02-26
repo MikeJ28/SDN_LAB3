@@ -56,13 +56,6 @@ const createProduct = async(req, resp) =>{
         // Nếu tên sản phẩm không có trong db thì thực hiện add
         else{ 
             const {name, price, description, images, comments, category} = req.body;
-            // Check xem có ảnh thì add vào db trước khi add sản phẩm.
-            if(images.length){
-                images.forEach(async element => {
-                    await imageRepo.createImage(element.url, element.caption, element.size)
-                });
-            }
-
             //add vào products
             const results = await productRepo.createProduct(name, price, description, images, comments, category);
             resp.status(201).json(results);
